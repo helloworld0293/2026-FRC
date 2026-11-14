@@ -39,19 +39,26 @@ public class Robot extends TimedRobot {
     }
 
     ///  @return may be null
+    ///
+    /// turns the number from getHubTagId and
     public static LimelightHelpers.LimelightTarget_Fiducial getHubTag() {
-        int hubTag = getHubTagId();
-        LimelightHelpers.LimelightTarget_Fiducial fid = null;
-        var results = LimelightHelpers.getLatestResults("limelight");
-        for (var fiducials : results.targets_Fiducials) {
-            if (fiducials.fiducialID == hubTag) {
-                fid = fiducials;
+        int hubTag = 1; // tag you want to look for
+        LimelightHelpers.LimelightTarget_Fiducial fid = null; // no stored value for apriltag
+        var limelightData = LimelightHelpers.getLatestResults("limelight"); //get limelight data
+        if (limelightData.targets_Fiducials != null) {
+            for (var fiducials : limelightData.targets_Fiducials) {
+                //if apriltag data is detected by the limelight, scan through every apriltag until you find your target one
+                if (fiducials.fiducialID == hubTag) {
+                    fid = fiducials; //
+                }
             }
         }
         return fid;
+
     }
 
     /// We are assuming that we do not change teams mid-match
+    /*
     private static int hubTag = -1;
     public static int getHubTagId() {
         if (hubTag != -1) {
@@ -71,7 +78,7 @@ public class Robot extends TimedRobot {
         }
         return hubTag;
     }
-
+*/
     /**
      * This method is run when the robot is first started up and should be used for any
      * initialization code.

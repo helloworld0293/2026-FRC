@@ -5,17 +5,9 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -75,6 +67,7 @@ public class RobotContainer {
 
         configureBindings();
         swerveSub.setDefaultCommand(driveFieldOrientedAngularVelocity);
+
     }
 
     private Vector2 rotation() {
@@ -157,9 +150,18 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // An example command will be run in autonomous
         //return ShootAutoCommand.getCommand(shooterSub, indexSub);
+
+        return new AlignAndMove(swerveSub);
+
+
+        /*
         return Commands.run(
                 () -> swerveSub.driveFieldOriented(new ChassisSpeeds(1.0,1.0,0.0)),
                         swerveSub
         ).withTimeout(3.0);
+
+IF YOU WANT TO ADD A TIMEOUT IN A COMMAND FILE< USE THE WPILIB Timer class
+
+         */
     }
 }

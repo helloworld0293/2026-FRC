@@ -3,18 +3,15 @@ package frc.robot.commands;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.LimelightHelpers;
 import frc.robot.Robot;
 import frc.robot.subsystems.SwerveSubsystem;
-import swervelib.SwerveDrive;
 
-public class HubMoveCommand extends Command {
+public class MoveCommand extends Command {
     private final SwerveSubsystem swerve;
     private boolean done = false;
 
-    public HubMoveCommand(SwerveSubsystem serveSub) {
+    public MoveCommand(SwerveSubsystem serveSub) {
         this.swerve = serveSub;
         addRequirements(swerve);
     }
@@ -23,7 +20,6 @@ public class HubMoveCommand extends Command {
     public void execute() {
         var fid = Robot.getHubTag();
         if (fid == null) return;
-        SwerveDrive drive = swerve.getSwerveDrive();
         Pose3d pose = fid.getTargetPose_RobotSpace();
 
         final double targetDistance = 10;
@@ -40,8 +36,7 @@ public class HubMoveCommand extends Command {
             move = 0;
             done = true;
         }
-        System.out.println("Move: " + move);
-        drive.drive(new ChassisSpeeds(move, 0, 0));
+        swerve.driveFieldOriented(new ChassisSpeeds(move, 0, 0));
     }
 
     @Override
