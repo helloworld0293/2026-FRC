@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.ShootAutoCommand;
 
 import java.util.Optional;
 
@@ -41,14 +40,14 @@ public class Robot extends TimedRobot {
     ///  @return may be null
     ///
     /// turns the number from getHubTagId and
-    public static LimelightHelpers.LimelightTarget_Fiducial getHubTag() {
-        int hubTag = 1; // tag you want to look for
+    public static LimelightHelpers.LimelightTarget_Fiducial getAprilTag() {
+        int apriltag = 1; // tag you want to look for
         LimelightHelpers.LimelightTarget_Fiducial fid = null; // no stored value for apriltag
         var limelightData = LimelightHelpers.getLatestResults("limelight"); //get limelight data
         if (limelightData.targets_Fiducials != null) {
             for (var fiducials : limelightData.targets_Fiducials) {
                 //if apriltag data is detected by the limelight, scan through every apriltag until you find your target one
-                if (fiducials.fiducialID == hubTag) {
+                if (fiducials.fiducialID == apriltag) {
                     fid = fiducials; //
                 }
             }
@@ -106,7 +105,7 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
 
         // Run the distance checker to update the dashboard's distance
-        var fid = Robot.getHubTag();
+        var fid = Robot.getAprilTag();
         String distance;
         if (fid != null) {
             distance = String.valueOf(

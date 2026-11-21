@@ -18,7 +18,7 @@ public class MoveCommand extends Command {
 
     @Override
     public void execute() {
-        var fid = Robot.getHubTag();
+        var fid = Robot.getAprilTag();
         if (fid == null) return;
         Pose3d pose = fid.getTargetPose_RobotSpace();
 
